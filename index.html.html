@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고쟁이 바지 공동구매</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EF;
+    --warm: #F0E8D8;
+    --brown: #7B5C3E;
+    --deep: #3D2B1F;
+    --accent: #C4845A;
+    --soft: #E8D5BF;
+    --text: #2C1A0E;
+    --border: #D4BFA4;
+    --head-bg: #EDE0CE;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  .page-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 16px 80px;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 0 28px;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 28px;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  header h1 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--deep);
+    margin-bottom: 6px;
+  }
+
+  header p {
+    font-size: 13px;
+    color: var(--brown);
+    line-height: 1.7;
+  }
+
+  .price-tag {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--deep);
+    color: var(--cream);
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 7px 22px;
+    border-radius: 4px;
+  }
+
+  .section { margin-bottom: 24px; }
+
+  .section-title {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--deep);
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title .num {
+    background: var(--accent);
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .info-table tr:not(:last-child) td,
+  .info-table tr:not(:last-child) th {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-table th {
+    background: var(--head-bg);
+    color: var(--brown);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 14px;
+    text-align: left;
+    width: 110px;
+    white-space: nowrap;
+  }
+
+  .info-table td { padding: 8px 10px; }
+
+  .info-table input {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--cream);
+  }
+
+  .info-table input:focus { border-color: var(--accent); background: #fff; }
+
+  .order-table-wrap {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 13px;
+  }
+
+  table.order-table thead tr {
+    background: var(--deep);
+    color: #fff;
+  }
+
+  table.order-table thead th {
+    padding: 11px 8px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+    text-align: center;
+  }
+
+  table.order-table thead th:first-child { text-align: left; padding-left: 14px; }
+
+  table.order-table tr.mat-header td {
+    background: var(--head-bg);
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--brown);
+    padding: 8px 14px;
+    border-top: 1.5px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.order-table tr.mat-header:first-of-type td { border-top: none; }
+
+  table.order-table tbody tr.data-row {
+    border-bottom: 1px solid #EEE4D6;
+    transition: background 0.15s;
+  }
+
+  table.order-table tbody tr.data-row:hover { background: #FFFBF7; }
+
+  table.order-table tbody td {
+    padding: 9px 8px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  table.order-table tbody td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    color: var(--brown);
+    font-size: 12px;
+  }
+
+  .color-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .color-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--cream);
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .color-chip input[type="radio"] {
+    accent-color: var(--accent);
+    width: 13px;
+    height: 13px;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .color-chip.selected {
+    border-color: var(--accent);
+    background: #FFF3EC;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .qty-wrap {
+    display: inline-flex;
+    align-items: center;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
+    min-width: 80px;
+  }
+
+  .qty-btn {
+    width: 26px;
+    height: 30px;
+    border: none;
+    background: var(--warm);
+    color: var(--brown);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+  }
+
+  .qty-btn:hover { background: var(--soft); }
+
+  .qty-num {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    min-width: 24px;
+    pointer-events: none;
+  }
+
+  tr.add-row td {
+    padding: 8px 14px;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+  }
+
+  .add-btn {
+    padding: 8px 18px;
+    background: var(--deep);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .add-btn:hover { background: var(--brown); }
+
+  .cart-wrap {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: #fff;
+  }
+
+  table.cart-table thead tr { background: var(--head-bg); }
+
+  table.cart-table thead th {
+    padding: 10px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--brown);
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  table.cart-table thead th:first-child { text-align: left; padding-left: 14px; }
+
+  table.cart-table tbody td {
+    padding: 10px 10px;
+    text-align: center;
+    border-bottom: 1px solid #EEE4D6;
+    vertical-align: middle;
+  }
+
+  table.cart-table tbody td:first-child { text-align: left; padding-left: 14px; }
+
+  .cart-empty-row td {
+    text-align: center !important;
+    padding: 28px !important;
+    color: var(--brown);
+    font-size: 13px;
+  }
+
+  .remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #aaa;
+    font-size: 11px;
+    cursor: pointer;
+    padding: 3px 8px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .remove-btn:hover { border-color: #e55; color: #e55; }
+
+  .cart-total-row td {
+    background: var(--warm);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 14px !important;
+    border-bottom: none !important;
+  }
+
+  .cart-total-row .total-amount {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 18px;
+    color: var(--accent);
+  }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 17px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+
+  .submit-btn:hover:not(:disabled) {
+    background: var(--brown);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(123,92,62,0.3);
+  }
+
+  .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+
+  .done-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 24px;
+  }
+
+  .done-screen.active { display: block; }
+  .done-icon { font-size: 52px; margin-bottom: 14px; }
+
+  .done-screen h2 {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 22px;
+    color: var(--deep);
+    margin-bottom: 10px;
+  }
+
+  .done-screen p { font-size: 13px; color: var(--brown); line-height: 1.8; }
+
+  .order-summary {
+    background: var(--warm);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 20px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.9;
+    border: 1px solid var(--border);
+  }
+
+  .form-main.hidden { display: none; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--deep);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 480px) {
+    .color-cell { flex-direction: column; align-items: flex-start; gap: 3px; }
+    table.order-table thead th { font-size: 11px; padding: 9px 4px; }
+    table.order-table tbody td { padding: 8px 4px; }
+    .qty-wrap { min-width: 70px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header>
+    <div class="badge">2학년 공동구매</div>
+    <h1>🌿 아이들 고쟁이 바지</h1>
+    <p>핸드메이드 · 소재별 색상 · 사이즈 선택 후 장바구니에 담아주세요</p>
+    <div class="price-tag">28,000원 / 벌</div>
+  </header>
+
+
+  <!-- =====================================================
+       ✏️  [STEP 2] 스크립트 실행 후 아래 <form> 블록 전체를
+           로그에 출력된 코드로 교체하세요.
+           (action URL과 entry.번호 5개를 바꾸면 됩니다)
+       ===================================================== -->
+  <form id="googleFormSubmit"
+        action="https://docs.google.com/forms/d/e/  Logger.log('');
+  Logger.log('<form id="googleFormSubmit"');
+  Logger.log('      action="' + actionUrl + '"');
+  Logger.log('      method="POST"');
+  Logger.log('      target="hidden_iframe"');
+  Logger.log('      accept-charset="UTF-8">');
+  Logger.log('  <input type="hidden" name="entry.' + ids['아이 이름']  + '" id="gf_childName">');
+  Logger.log('  <input type="hidden" name="entry.' + ids['연락처']     + '" id="gf_phone">');
+  Logger.log('  <input type="hidden" name="entry.' + ids['주문 내용']  + '" id="gf_orderText">');
+  Logger.log('  <input type="hidden" name="entry.' + ids['총 수량']    + '" id="gf_totalQty">');
+  Logger.log('  <input type="hidden" name="entry.' + ids['총 금액']    + '" id="gf_totalAmount">');
+  Logger.log('</form>');
+  Logger.log('<iframe name="hidden_iframe" style="display:none;"></iframe>');
+  Logger.log('');/formResponse"
+        method="POST"
+        target="hidden_iframe"
+        accept-charset="UTF-8">
+    <input type="hidden" name="entry.★아이이름_ID★"  id="gf_childName">
+    <input type="hidden" name="entry.★연락처_ID★"    id="gf_phone">
+    <input type="hidden" name="entry.★주문내용_ID★"  id="gf_orderText">
+    <input type="hidden" name="entry.★총수량_ID★"    id="gf_totalQty">
+    <input type="hidden" name="entry.★총금액_ID★"    id="gf_totalAmount">
+  </form>
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+  <!-- ===================================================== -->
+
+
+  <div class="form-main" id="formMain">
+
+    <div class="section">
+      <div class="section-title"><span class="num">1</span> 주문자 정보</div>
+      <table class="info-table">
+        <tr>
+          <th>아이 이름</th>
+          <td><input type="text" id="childName" placeholder="예) 김민준"></td>
+        </tr>
+        <tr>
+          <th>연락처</th>
+          <td><input type="tel" id="phone" placeholder="예) 010-1234-5678"></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">2</span> 상품 선택</div>
+      <div class="order-table-wrap">
+        <table class="order-table">
+          <thead>
+            <tr>
+              <th>소재 / 색상</th>
+              <th>사이즈 130</th>
+              <th>사이즈 140</th>
+              <th>사이즈 150</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="mat-header">
+              <td colspan="4">🌾 지지미 &nbsp;<span style="font-size:11px;font-weight:400;font-family:'Noto Sans KR';">여름 소재</span></td>
+            </tr>
+            <tr class="data-row" id="row_jijimi">
+              <td>
+                <div class="color-cell" id="colorCell_jijimi">
+                  <label class="color-chip" onclick="selectColor(this,'jijimi')">
+                    <input type="radio" name="color_jijimi" value="색상1">색상 1
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'jijimi')">
+                    <input type="radio" name="color_jijimi" value="색상2">색상 2
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'jijimi')">
+                    <input type="radio" name="color_jijimi" value="색상3">색상 3
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'jijimi')">
+                    <input type="radio" name="color_jijimi" value="색상4">색상 4
+                  </label>
+                </div>
+              </td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('jijimi','130',-1)">−</button><span class="qty-num" id="qty_jijimi_130">0</span><button type="button" class="qty-btn" onclick="chg('jijimi','130',1)">+</button></div></td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('jijimi','140',-1)">−</button><span class="qty-num" id="qty_jijimi_140">0</span><button type="button" class="qty-btn" onclick="chg('jijimi','140',1)">+</button></div></td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('jijimi','150',-1)">−</button><span class="qty-num" id="qty_jijimi_150">0</span><button type="button" class="qty-btn" onclick="chg('jijimi','150',1)">+</button></div></td>
+            </tr>
+            <tr class="add-row">
+              <td colspan="4"><button type="button" class="add-btn" onclick="addToCart('jijimi')">🛒 지지미 장바구니 담기</button></td>
+            </tr>
+
+            <tr class="mat-header">
+              <td colspan="4">🌸 거즈 &nbsp;<span style="font-size:11px;font-weight:400;font-family:'Noto Sans KR';">부드러운 소재</span></td>
+            </tr>
+            <tr class="data-row" id="row_gauze">
+              <td>
+                <div class="color-cell" id="colorCell_gauze">
+                  <label class="color-chip" onclick="selectColor(this,'gauze')">
+                    <input type="radio" name="color_gauze" value="색상1">색상 1
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'gauze')">
+                    <input type="radio" name="color_gauze" value="색상2">색상 2
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'gauze')">
+                    <input type="radio" name="color_gauze" value="색상3">색상 3
+                  </label>
+                  <label class="color-chip" onclick="selectColor(this,'gauze')">
+                    <input type="radio" name="color_gauze" value="색상4">색상 4
+                  </label>
+                </div>
+              </td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('gauze','130',-1)">−</button><span class="qty-num" id="qty_gauze_130">0</span><button type="button" class="qty-btn" onclick="chg('gauze','130',1)">+</button></div></td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('gauze','140',-1)">−</button><span class="qty-num" id="qty_gauze_140">0</span><button type="button" class="qty-btn" onclick="chg('gauze','140',1)">+</button></div></td>
+              <td><div class="qty-wrap"><button type="button" class="qty-btn" onclick="chg('gauze','150',-1)">−</button><span class="qty-num" id="qty_gauze_150">0</span><button type="button" class="qty-btn" onclick="chg('gauze','150',1)">+</button></div></td>
+            </tr>
+            <tr class="add-row">
+              <td colspan="4"><button type="button" class="add-btn" onclick="addToCart('gauze')">🛒 거즈 장바구니 담기</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="num">3</span> 장바구니</div>
+      <div class="cart-wrap">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>소재 · 색상</th>
+              <th>사이즈</th>
+              <th>수량</th>
+              <th>금액</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="cartBody">
+            <tr class="cart-empty-row" id="cartEmptyRow">
+              <td colspan="5">🧺 아직 담긴 상품이 없어요</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="cart-total-row" id="cartTotalRow" style="display:none;">
+              <td colspan="3" style="text-align:right; color:var(--brown);">총 결제 예정금액</td>
+              <td colspan="2"><span class="total-amount" id="totalAmt">0원</span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <button type="button" class="submit-btn" id="submitBtn" onclick="submitOrder()" disabled>주문 완료하기</button>
+  </div>
+
+  <div class="done-screen" id="doneScreen">
+    <div class="done-icon">🎉</div>
+    <h2>주문이 접수됐어요!</h2>
+    <p>확인 후 입금 안내 드릴게요.<br>문의사항은 학급 단톡방으로 남겨주세요 🙏</p>
+    <div class="order-summary" id="orderSummary"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const PRICE = 28000;
+  const MAT = { jijimi: '지지미', gauze: '거즈' };
+  let cart = [];
+
+  function selectColor(el, mat) {
+    document.querySelectorAll(`#colorCell_${mat} .color-chip`).forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function chg(mat, size, d) {
+    const el = document.getElementById(`qty_${mat}_${size}`);
+    let v = parseInt(el.textContent, 10) + d;
+    if (v < 0) v = 0;
+    el.textContent = v;
+  }
+
+  function addToCart(mat) {
+    const checked = document.querySelector(`input[name="color_${mat}"]:checked`);
+    if (!checked) { toast('❗ 색상을 선택해주세요'); return; }
+    const color = checked.value;
+    let added = false;
+
+    ['130', '140', '150'].forEach(sz => {
+      const qty = parseInt(document.getElementById(`qty_${mat}_${sz}`).textContent, 10);
+      if (qty > 0) {
+        const ex = cart.find(c => c.mat === mat && c.color === color && c.size === sz);
+        if (ex) ex.qty += qty;
+        else cart.push({ mat, color, size: sz, qty });
+        document.getElementById(`qty_${mat}_${sz}`).textContent = 0;
+        added = true;
+      }
+    });
+
+    if (!added) { toast('❗ 수량을 1개 이상 선택해주세요'); return; }
+    renderCart();
+    toast('✅ 장바구니에 담겼어요!');
+  }
+
+  function removeItem(i) {
+    cart.splice(i, 1);
+    renderCart();
+  }
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const emptyRow = document.getElementById('cartEmptyRow');
+    const totalRow = document.getElementById('cartTotalRow');
+    const totalAmt = document.getElementById('totalAmt');
+    const btn = document.getElementById('submitBtn');
+
+    body.querySelectorAll('.cart-data-row').forEach(r => r.remove());
+
+    if (cart.length === 0) {
+      emptyRow.style.display = '';
+      totalRow.style.display = 'none';
+      btn.disabled = true;
+      return;
+    }
+
+    emptyRow.style.display = 'none';
+    totalRow.style.display = '';
+    btn.disabled = false;
+
+    let total = 0;
+    cart.forEach((item, i) => {
+      const sub = item.qty * PRICE;
+      total += sub;
+      const tr = document.createElement('tr');
+      tr.className = 'cart-data-row';
+      tr.innerHTML = `
+        <td><strong>${MAT[item.mat]}</strong> · ${item.color}</td>
+        <td>${item.size}</td>
+        <td>${item.qty}개</td>
+        <td style="color:var(--accent);font-weight:700;">${sub.toLocaleString()}원</td>
+        <td><button type="button" class="remove-btn" onclick="removeItem(${i})">삭제</button></td>
+      `;
+      body.insertBefore(tr, emptyRow);
+    });
+
+    totalAmt.textContent = total.toLocaleString() + '원';
+  }
+
+  function buildOrderText() {
+    return cart
+      .map(c => `${MAT[c.mat]} / ${c.color} / ${c.size} / ${c.qty}개 / ${(c.qty * PRICE).toLocaleString()}원`)
+      .join(' | ');
+  }
+
+  function submitOrder() {
+    const name  = document.getElementById('childName').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name)  { toast('❗ 아이 이름을 입력해주세요'); return; }
+    if (!phone) { toast('❗ 연락처를 입력해주세요'); return; }
+    if (cart.length === 0) { toast('❗ 장바구니가 비어있어요'); return; }
+
+    const totalQty    = cart.reduce((s, c) => s + c.qty, 0);
+    const totalAmount = cart.reduce((s, c) => s + c.qty * PRICE, 0);
+
+    // 구글폼 hidden 필드에 값 주입
+    document.getElementById('gf_childName').value  = name;
+    document.getElementById('gf_phone').value      = phone;
+    document.getElementById('gf_orderText').value  = buildOrderText();
+    document.getElementById('gf_totalQty').value   = totalQty;
+    document.getElementById('gf_totalAmount').value = totalAmount;
+
+    // 구글폼 제출 (백그라운드 iframe으로)
+    document.getElementById('googleFormSubmit').submit();
+
+    // 완료 화면 전환
+    document.getElementById('formMain').classList.add('hidden');
+    document.getElementById('doneScreen').classList.add('active');
+
+    document.getElementById('orderSummary').innerHTML =
+      `<strong>${name}</strong> 어머님 · ${phone}<br><br>` +
+      cart.map(c =>
+        `• ${MAT[c.mat]} ${c.color} / ${c.size} / ${c.qty}개 → ${(c.qty * PRICE).toLocaleString()}원`
+      ).join('<br>') +
+      `<br><br><strong>총 수량: ${totalQty}개</strong><br><strong>총 금액: ${totalAmount.toLocaleString()}원</strong>`;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2200);
+  }
+</script>
+</body>
+</html>
